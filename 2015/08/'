@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+def code_length_of(string)
+  string.length
+end
+
+def string_length_of(string)
+  string.gsub(/\A"/, '').gsub(/"\z/, '').scan(/\\"|\\x\X\X|\\\\|./).size + 2
+end
