@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'pry-byebug'
+require_relative './lib/bios'
 
 class Asteroid
   attr_accessor :x, :y, :id, :visible, :blocked
@@ -139,20 +140,15 @@ end
 
 if $0 == __FILE__
   lines = File.readlines(ARGV[0]).map(&:strip)
-  if lines.last =~ /\d+,\d+,\d+/
-    expected_x, expected_y, expected_count = lines.pop.split(',').map(&:to_i)
+  if lines.last =~ /\A\d+,\d+,\d+/
+    expected_x, expected_y, expected_1, expected_2 = lines.pop.split(',').map(&:to_i)
   end
   map = Map.parse(lines)
   best = map.best
-  if expected_x
-    puts "Expected #{expected_count} (<#{expected_x},#{expected_y}>)"
-    puts "     Got #{best.visible.count} (<#{best.x},#{best.y}>)"
-  else
-    puts "Part 1: #{best.visible.count} (<#{best.x},#{best.y}>)"
-  end
+  BIOS.assert_or_print(expected_1, best.visible.count, label: 'Part 1')
   victims = map.carnage!(best)
   if victims.size >= 200
     special = victims[199]
-    puts "Part 2: #{special.x * 100 + special.y}"
+    BIOS.assert_or_print(expected_2, special.x * 100 + special.y, label: 'Part 2')
   end
 end

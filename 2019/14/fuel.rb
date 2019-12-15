@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require_relative './lib/bios'
+
 class Factory
   attr_accessor :requirements
 
@@ -90,13 +92,6 @@ if $0 == __FILE__
   ore = factory.ore_required(1)
   fuel_produced = factory.fuel_produced(1_000_000_000_000)
 
-  if expected_1
-    puts "Part 1: expected: #{expected_1}, got: #{ore} #{'✅' if ore == expected_1}"
-    if expected_2
-      puts "Part 2: expected: #{expected_2}, got: #{fuel_produced} #{'✅' if fuel_produced == expected_2}"
-    end
-  else
-    puts "Part 1: #{ore}"
-    puts "Part 2: #{fuel_produced}"
-  end
+  BIOS.assert_or_print(expected_1, ore, label: 'Part 1')
+  BIOS.assert_or_print(expected_2, fuel_produced, label: 'Part 2')
 end

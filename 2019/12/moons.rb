@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require_relative './lib/bios'
+
 class System
   attr_reader :moons
 
@@ -125,13 +127,6 @@ if $0 == __FILE__
   period_finder = PeriodFinder.new(moons)
   period = period_finder.period
 
-  if expected1
-    puts "Part 1: Expected #{expected1}, got #{total_energy} #{total_energy == expected1 ? '✅' : '🛑'}"
-    if expected2
-      puts "Part 2: Expected #{expected2}, got #{period} #{period == expected2 ? '✅' : '🛑'}"
-    end
-  else
-    puts "Part 1: #{total_energy}"
-    puts "Part 2: #{period}"
-  end
+  BIOS.assert_or_print(expected1, total_energy, label: 'Part 1')
+  BIOS.assert_or_print(expected2, period, label: 'Part 2')
 end

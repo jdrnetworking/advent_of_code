@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require_relative './lib/bios'
 require 'minitest'
 require 'set'
 
@@ -334,8 +335,9 @@ class Wire
 end
 
 if $0 == __FILE__
-  input = ARGF.readlines.map(&:strip)
-  wire_1_path, wire_2_path, expected_part_1_answer, expected_part_2_answer = input
+  wire_1_path, wire_2_path, expected_1, expected_2 = ARGF.readlines.map(&:strip)
+  expected_1 = expected_1.to_i if expected_1
+  expected_2 = expected_2.to_i if expected_2
   wire_1 = Wire.parse(wire_1_path)
   wire_2 = Wire.parse(wire_2_path)
   intersections = Set.new
@@ -346,18 +348,10 @@ if $0 == __FILE__
   end
 
   part_1_closest = intersections.reject(&:origin?).map(&:manhattan_magnitude).min
-  if expected_part_1_answer
-    puts "Expected #{expected_part_1_answer}, got #{part_1_closest}"
-  else
-    puts part_1_closest
-  end
+  BIOS.assert_or_print(expected_1, part_1_closest, label: 'Part 1')
 
   part_2_closest = intersections.reject(&:origin?).map { |intersection|
     wire_1.wire_distance_to(intersection) + wire_2.wire_distance_to(intersection)
   }.min
-  if expected_part_2_answer
-    puts "Expected #{expected_part_2_answer}, got #{part_2_closest}"
-  else
-    puts part_2_closest
-  end
+  BIOS.assert_or_print(expected_2, part_2_closest, label: 'Part 2')
 end

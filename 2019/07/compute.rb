@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 
+require_relative './lib/bios'
 require_relative './lib/computer'
 
 if $0 == __FILE__
   mode, available_phase_settings, memory, expected = ARGF.readlines.map(&:strip)
+  expected = expected.to_i if expected
   available_phase_settings = available_phase_settings.chars.map(&:to_i)
   memory = memory.split(',').map(&:to_i)
 
@@ -40,9 +42,5 @@ if $0 == __FILE__
     raise ArgumentError, "Unexpected mode '#{mode}'"
   end
 
-  if expected
-    puts "Expected #{expected}, got #{max} #{expected.to_i == max ? '✅' : 'ｘ'}"
-  else
-    puts max
-  end
+  BIOS.assert_or_print(expected, max)
 end
