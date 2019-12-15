@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative './computer'
-require_relative './infinite_grid'
+require_relative './lib/computer'
+require_relative './lib/infinite_grid'
 
 class Robot
   DIRECTIONS = %w[Up Right Down Left]
@@ -60,11 +60,11 @@ if $0 == __FILE__
   computer = Computer.new(initial_memory, robot, robot)
   computer.compute!
   puts "Part 1: #{robot.painted_cell_count}"
-  grid = InfiniteGrid.new
+  grid = InfiniteGrid.new(display_mapping: {nil => ' ', 0 => ' ', 1 => '█'})
   grid[0,0] = 1
   robot = Robot.new(grid)
   computer = Computer.new(initial_memory, robot, robot)
   computer.compute!
   puts "Part 2:"
-  puts grid.to_s({nil => ' ', 0 => ' ', 1 => '█'})
+  puts grid
 end

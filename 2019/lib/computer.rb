@@ -2,11 +2,11 @@ class Computer
   attr_reader :memory, :inputs, :outputs, :name
   attr_accessor :relative_base, :ip
 
-  def initialize(memory, inputs, outputs, name: nil)
+  def initialize(memory, inputs, outputs, **options)
     @memory = memory.dup
     @inputs = inputs
     @outputs = outputs
-    @name = name || rand(1000)
+    @name = options.fetch(:name, rand(1000))
     @relative_base = 0
     @ip = 0
   end

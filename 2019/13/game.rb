@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'io/console'
-
-require_relative './computer'
-require_relative './infinite_grid'
+require_relative './lib/computer'
+require_relative './lib/infinite_grid'
 
 class Game
   attr_reader :code, :computer, :grid
@@ -13,7 +12,7 @@ class Game
   def initialize(code, interactive: false)
     @code = code
     @computer = Computer.new(code, self, self)
-    @grid = InfiniteGrid.new(display_mapping: { nil => ' ', 0 => ' ', 1 => '█', 2 => '▒', 3 => '=', 4 => 'o' })
+    @grid = InfiniteGrid.new(display_mapping: { nil => ' ', 0 => ' ', 1 => '█', 2 => '▒', 3 => '=', 4 => 'o' }, inverted: true)
     @state = :x
     @interactive = interactive
     @score = 0

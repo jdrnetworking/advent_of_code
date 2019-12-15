@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'pry-byebug'
-
 class Factory
   attr_accessor :requirements
 
