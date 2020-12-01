@@ -80,7 +80,7 @@ class InfiniteGrid
     end
   end
 
-  def specified_cell_count
-    grid.sum { |row| row.compact.size }
+  def specified_cell_count(values: [])
+    grid.sum { |row| values.empty? ? row.compact.size : row.count { |c| values.include?(c) } }
   end
 end

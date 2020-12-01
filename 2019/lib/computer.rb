@@ -1,14 +1,14 @@
 class Computer
-  attr_reader :memory, :inputs, :outputs, :name
-  attr_accessor :relative_base, :ip
+  attr_reader :memory, :initial_memory
+  attr_accessor :relative_base, :ip, :inputs, :outputs, :name
 
-  def initialize(memory, inputs, outputs, **options)
-    @memory = memory.dup
+  def initialize(memory, inputs = [], outputs = [], **options)
+    @memory = []
+    @initial_memory = memory.dup
     @inputs = inputs
     @outputs = outputs
     @name = options.fetch(:name, rand(1000))
-    @relative_base = 0
-    @ip = 0
+    reset!
   end
 
   def compute!
@@ -65,6 +65,17 @@ class Computer
         raise ArgumentError, "Unknown Instruction: #{memory[ip]} at location #{ip}. Memory:\n#{memory.inspect}"
       end
     end
+  end
+
+  def reset!
+    self.relative_base = 0
+    self.ip = 0
+    memory.replace(initial_memory)
+  end
+
+  def reboot!
+    reset!
+    compute!
   end
 
   private
